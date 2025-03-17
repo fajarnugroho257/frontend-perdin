@@ -3,7 +3,7 @@ import { login } from "../api/auth";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import logo from "../assets/img/logo512.png"
+import logo from "../assets/img/logo.png"
 import { Link } from "react-router-dom";
 
 import TextField from '@mui/material/TextField';
@@ -39,8 +39,9 @@ const Login = () => {
           heightAuto:true
         });
       }
-      const { token, userRole } = response;
-      auth?.login(token, userRole);
+      const { token, userRole, user_nama } = response;
+      console.log(response);
+      auth?.login(token, userRole, user_nama);
       if (userRole === 'pegawai') {
         navigate("/pegawai");
       } else if(userRole === 'sdm'){
@@ -98,7 +99,7 @@ const Login = () => {
             </div>
             <div className="mt-8 flex justify-between items-center">
               <button className="bg-blue-400 text-white rounded-md py-2 px-3 " onClick={handleLogin}>Masuk</button>
-              <Link to="/daftar" className="underline">Belum punya akun ?</Link>
+              <Link to="/register" className="underline">Belum punya akun ?</Link>
             </div>
           </div>
         </div>

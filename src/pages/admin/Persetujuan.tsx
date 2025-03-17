@@ -4,6 +4,7 @@ import Header from "../../components/Headers/Header";
 import { getAllPerdinPersetujuan, updateStatus } from "../../api/auth";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
+import { EditNote  } from '@mui/icons-material';
 
 // 
 import Table from '@mui/material/Table';
@@ -43,6 +44,7 @@ const Persetujuan = () => {
         perdin_saku: string;
         asal: any;
         tujuan: any;
+        user: any;
     }
     // state
     const [dataPerdin, setDataPerdin] = useState<PerdinData[]>([]);
@@ -120,6 +122,7 @@ return (
                             <TableHead>
                             <TableRow>
                                 <TableCell width={10} align="center">No</TableCell>
+                                <TableCell align="center">Nama</TableCell>
                                 <TableCell width={150} align="center">Maksud</TableCell>
                                 <TableCell align="center">Mulai</TableCell>
                                 <TableCell align="center">Selesai</TableCell>
@@ -138,6 +141,7 @@ return (
                                 key={index}
                                 >
                                 <TableCell align="center">{index+1}</TableCell>
+                                <TableCell align="left">{row.user.nama}</TableCell>
                                 <TableCell align="left">{row.perdin_maksud}</TableCell>
                                 <TableCell align="center">{formatDate(row.perdin_start)}</TableCell>
                                 <TableCell align="center">{formatDate(row.perdin_end)}</TableCell>
@@ -152,10 +156,11 @@ return (
                                     <div className="text-xs rounded-sm text-white mx-auto bg-red-600 w-fit p-1">Tolak</div>}
                                 </TableCell>
                                 <TableCell align="center">
-                                    <div className="flex md:block">
+                                    {/* <div className="flex md:block">
                                         <button onClick={() => handleUpdate(row.perdin_id, 'approve')} className="text-xs rounded-sm text-white mx-auto bg-green-600 w-fit p-1 mr-1">Setuju</button>
                                         <button onClick={() => handleUpdate(row.perdin_id, 'reject')} className="text-xs rounded-sm text-white mx-auto bg-red-600 w-fit p-1">Tolak</button>
-                                    </div>
+                                    </div> */}
+                                    <Link className="text-blue-500" to={`/persetujuan/edit/${row.perdin_id}`}>{<EditNote/>}</Link>
                                 </TableCell>
                                 </TableRow>
                             ))}

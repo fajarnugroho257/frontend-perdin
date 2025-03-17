@@ -1,7 +1,7 @@
 /*eslint-disable*/
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Headers/Header";
-import { allDataKota, deleteKota } from "../../api/auth";
+import { getAllDataProvinsi, deleteProvinsi } from "../../api/auth";
 import { Link } from "react-router-dom";
 import { Edit, RestoreFromTrash  } from '@mui/icons-material';
 import AddIcon from "@mui/icons-material/Add";
@@ -16,36 +16,31 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Swal from "sweetalert2";
 
-const Kota = () => {
-    // data kota
-    interface KotaData {
-        kota_id: string;
-        kota_nama: string;
-        kota_latitude: string;
-        kota_longitude: string;
-        data_provinsi: any;
+const Provinsi = () => {
+    // data provinsi
+    interface ProvinsiData {
+        prov_id: string;
         data_pulau: any;
-        kota_pulau: string;
-        kota_st: string;
+        prov_nama: string;
     }
-    const [dataKota, setDataKota] = useState<KotaData[]>([]);
+    const [dataProvinsi, setDataProvinsi] = useState<ProvinsiData[]>([]);
     // get all data kota
-    const getAllDataKota = async () => {
+    const getDataProvinsi = async () => {
         try {
-            const rsData = await allDataKota();
-            setDataKota(rsData.data);
+            const rsData = await getAllDataProvinsi();
+            setDataProvinsi(rsData.data);
         } catch (error) {
             console.error("Gagal mendapatkan data kota:", error);
         }
     }
     // 
     useEffect(() => {
-        getAllDataKota();
+        getDataProvinsi();
     }, []);
 
-    const deleteDataKota = async (kota_id:string) => {
+    const deleteDataProvinsi = async (prov_id:string) => {
         try {
-            const response = await deleteKota(kota_id);
+            const response = await deleteProvinsi(prov_id);
             Swal.fire({
                 title: "Succes!",
                 text: response.message,
@@ -55,12 +50,12 @@ const Kota = () => {
                 heightAuto:true
             });
             // refresh
-            getAllDataKota();
+            getDataProvinsi();
         } catch (error) {
             console.error("Gagal mendapatkan data kota:", error);
         }
     }
-    const handleDelete =  (kota_id:string) => {
+    const handleDelete = (prov_id:string) => {
         Swal.fire({
           title: "Apakah Anda yakin?",
           text: "Akan menghapus data ini!",
@@ -73,7 +68,7 @@ const Kota = () => {
         }).then((result) => {
           if (result.isConfirmed) {
             // hapus data
-            deleteDataKota(kota_id);
+            deleteDataProvinsi(prov_id);
           }
         });
       };
@@ -86,8 +81,8 @@ return (
             <div className="m-5 p-5 bg-white flex-1 overflow-y-auto scrollbar-hide rounded-md shadow-md">
                 <div className="w-full">
                     <div className="flex justify-between mb-2">
-                        <h5>Data Kota</h5>
-                        <Button variant="contained" size="small" startIcon={<AddIcon  />} component={Link} to="/kota/tambah">
+                        <h5>Data Provinsi</h5>
+                        <Button variant="contained" size="small" startIcon={<AddIcon  />} component={Link} to="/provinsi/tambah">
                             Tambah
                         </Button>
                     </div>
@@ -97,32 +92,22 @@ return (
                             <TableHead>
                             <TableRow>
                                 <TableCell align="center">No</TableCell>
-                                <TableCell align="center">Kota</TableCell>
                                 <TableCell align="center">Provinsi</TableCell>
                                 <TableCell align="center">Pulau</TableCell>
-                                <TableCell align="center">Latitude</TableCell>
-                                <TableCell align="center">Longitude</TableCell>
-                                <TableCell align="center">Status</TableCell>
                                 <TableCell align="center">Aksi</TableCell>
                             </TableRow>
                             </TableHead>
                             <TableBody>
-                            {dataKota.map((data, index) => (
+                            {dataProvinsi.map((data, index) => (
                                 <TableRow
                                 key={index}
                                 >
                                 <TableCell width={10} align="center">{index+1}</TableCell>
-                                <TableCell align="left">{data.kota_nama}</TableCell>
-                                <TableCell align="left">{data.data_provinsi.prov_nama}</TableCell>
+                                <TableCell align="left">{data.prov_nama}</TableCell>
                                 <TableCell align="left">{data.data_pulau.pulau_nama}</TableCell>
-                                <TableCell align="left">{data.kota_latitude}</TableCell>
-                                <TableCell align="left">{data.kota_longitude}</TableCell>
                                 <TableCell align="center">
-                                    {data.kota_st === 'yes' ? <div className="text-green-500 font-semibold">Dalam Negeri</div> : <div className="text-red-500 font-semibold">Luar Negeri</div>}
-                                    </TableCell>
-                                <TableCell align="center">
-                                    <Link className="text-yellow-500" to={`/kota/edit/${data.kota_id}`}>{<Edit/>}</Link>
-                                    <a onClick={() => handleDelete(data.kota_id)} className="text-red-500 cursor-pointer" >{<RestoreFromTrash/>}</a>
+                                    <Link className="text-yellow-500" to={`/provinsi/edit/${data.prov_id}`}>{<Edit/>}</Link>
+                                    <a onClick={() => handleDelete(data.prov_id)} className="text-red-500 cursor-pointer" >{<RestoreFromTrash/>}</a>
                                 </TableCell>
                                 </TableRow>
                             ))}
@@ -137,4 +122,4 @@ return (
 );
 }
 
-export default Kota;
+export default Provinsi;

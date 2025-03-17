@@ -4,7 +4,7 @@ import { createContext, useState, useEffect } from "react";
 
 interface AuthContextType {
   token: string | null;
-  login: (token: string, userRole:string) => void;
+  login: (token: string, userRole:string, user_nama:string) => void;
   logout: () => void;
 }
 
@@ -31,15 +31,17 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [token]);
 
-  const login = (newToken: string, userRole:string) => {
+  const login = (newToken: string, userRole:string, user_nama:string) => {
     localStorage.setItem("token", newToken);
     setToken(newToken);
     localStorage.setItem("role", userRole);
+    localStorage.setItem("user_nama", user_nama);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("role");
+    localStorage.removeItem("user_nama");
     setToken(null);
   };
 

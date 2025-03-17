@@ -26,8 +26,11 @@ export default function Sidebar() {
   } else if(role === 'sdm') {
     dataMenu = [
       {link: "/admin", name:"Dashboard", logo: "fa fa-dashboard", menus: ['admin']},
+      {link: "/persetujuan", name:"Persetujuan", logo: "fa fa-bank", menus: ['persetujuan']},
+      {link: "/user", name:"Pengguna", logo: "fa fa-users", menus: ['user']},
       {link: "/kota", name:"Data Kota", logo: "fa fa-city", menus: ['kota']},
-      {link: "/persetujuan", name:"Persetujuan", logo: "fa fa-bank", menus: ['persetujuan']}
+      {link: "/provinsi", name:"Data Provinsi", logo: "fa fa-map-signs", menus: ['provinsi']},
+      {link: "/pulau", name:"Data Pulau", logo: "fa fa-tree", menus: ['pulau']},
     ];
   } else {
     dataMenu = [{link: "/xxx", name:"Dashboard", logo: "fa fa-bank", menus: ['/xxx']},];

@@ -11,6 +11,16 @@ import Kota from "../pages/admin/Kota";
 import KotaTambah from "../pages/admin/KotaTambah";
 import KotaEdit from "../pages/admin/KotaEdit";
 import PerdinEdit from "../pages/pegawai/PerdinEdit";
+import User from "../pages/admin/User";
+import UserEdit from "../pages/admin/UsersEdit";
+import PersetujuanStatus from "../pages/admin/PersetujuanStatus";
+import Register from "../pages/Register";
+import Pulau from "../pages/admin/Pulau";
+import PulauTambah from "../pages/admin/PulauTambah";
+import PulauEdit from "../pages/admin/PulauEdit";
+import Provinsi from "../pages/admin/Provinsi";
+import ProvinsiTambah from "../pages/admin/ProvinsiTambah";
+import ProvinsiEdit from "../pages/admin/ProvinsiEdit";
 // https://bit.ly/Technicaltest-PRG-Yogya
 const AppRoutes = () => {
   const role = localStorage.getItem("role");
@@ -28,9 +38,23 @@ const AppRoutes = () => {
           </Route>
           <Route path="/persetujuan" element={<DashboardLayout />}>
             <Route index element={<Persetujuan />} />
-            <Route path="tambah" element={<PerdinTambah />} />
+            <Route path="edit/:perdin_id" element={<PersetujuanStatus />} />
           </Route>
-          
+          <Route path="/user" element={<DashboardLayout />}>
+            <Route index element={<User />} />
+            <Route path="tambah" element={<PerdinTambah />} />
+            <Route path="edit/:user_id" element={<UserEdit />} />
+          </Route>
+          <Route path="/provinsi" element={<DashboardLayout />}>
+            <Route index element={<Provinsi />} />
+            <Route path="tambah" element={<ProvinsiTambah />} />
+            <Route path="edit/:prov_id" element={<ProvinsiEdit />} />
+          </Route>
+          <Route path="/pulau" element={<DashboardLayout />}>
+            <Route index element={<Pulau />} />
+            <Route path="tambah" element={<PulauTambah />} />
+            <Route path="edit/:pulau_id" element={<PulauEdit />} />
+          </Route>
         </Route>
 
         {/* PrivateRoutePegawai */}
@@ -48,6 +72,7 @@ const AppRoutes = () => {
         {/* Group untuk halaman yang bebas diakses */}
         <Route element={<PublicRoute />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
         </Route>
 
         {/* Redirect jika halaman tidak ditemukan */}

@@ -90,9 +90,15 @@ const PerdinEdit = () => {
         // cek jika tanggal mulai
         if (name === 'perdin_start') {
             formData['perdin_durasi'] = calculateDateDifference(value, formData['perdin_end']).toString();
+            // biaya
+            const ketPreference = dataPreference.filter((val) => val.pref_id === formData['pref_id']);
+            formData['perdin_biaya'] = (parseInt(formData['perdin_durasi']) * parseInt(ketPreference[0]['pref_value'])).toString();
         }
         if (name === 'perdin_end') {
             formData['perdin_durasi'] = calculateDateDifference(value, formData['perdin_start']).toString();
+            // biaya
+            const ketPreference = dataPreference.filter((val) => val.pref_id === formData['pref_id']);
+            formData['perdin_biaya'] = (parseInt(formData['perdin_durasi']) * parseInt(ketPreference[0]['pref_value'])).toString();
         }
         if (name === 'perdin_asal') {
             const selected = dataKota.filter((val) => val.kota_id === value);
@@ -156,7 +162,6 @@ const PerdinEdit = () => {
             setPerdinValue(ketPreference[0]['pref_value']);
             // biaya
             formData['perdin_biaya'] = (parseInt(formData['perdin_durasi']) * parseInt(ketPreference[0]['pref_value'])).toString();
-            // console.log(ketPreference[0]);
         }
         setTempuh(jarakTempuh);
         setFormData((prevData) => ({
@@ -284,25 +289,13 @@ const PerdinEdit = () => {
                     <div className="m-5 p-5 bg-white flex-1 overflow-y-auto scrollbar-hide rounded-md shadow-md">
                         <div className="w-full">
                             <div className="flex justify-between mb-2">
-                                <h5>Edit Data Kota</h5>
+                                <h5>Edit Data Perdin</h5>
                                 <Button variant="contained" size="small" startIcon={<ArrowBack />} component={Link} to="/perdin">
                                     Kembali
                                 </Button>
                             </div>
                             <hr className="mb-3" />
                             <form onSubmit={handleSubmit} className="grid gap-4">
-                                <TextField
-                                required
-                                aria-hidden
-                                label="Tujuan"
-                                multiline
-                                rows={2}
-                                fullWidth
-                                variant="outlined"
-                                name="perdin_maksud"
-                                value={formData.perdin_maksud}
-                                onChange={handleOnChange}
-                                />
                                 <div className="grid md:grid-cols-3 gap-4">
                                     <TextField
                                     required
@@ -354,18 +347,38 @@ const PerdinEdit = () => {
                                             return <MenuItem key={index} value={val.kota_id}>{val.kota_nama}</MenuItem>
                                         })}
                                     </Select>
-                                    <div className="w-5">
-                                        <Button type="submit" size="small" variant="contained" color="success" startIcon={<Save />}>Simpan</Button>
-                                    </div>
+                                </div>
+                                <TextField
+                                required
+                                aria-hidden
+                                label="Tujuan"
+                                multiline
+                                rows={2}
+                                fullWidth
+                                variant="outlined"
+                                name="perdin_maksud"
+                                value={formData.perdin_maksud}
+                                onChange={handleOnChange}
+                                />
+                                <div className="w-5">
+                                    <Button type="submit" size="small" variant="contained" color="success" startIcon={<Save />}>Simpan</Button>
                                 </div>
                             </form>
                             {formData.perdin_asal !== '' && formData.perdin_tujuan !== '' ? 
-                            <div className="bg-gray-200 p-3 rounded-md my-3">
-                                <div className="">Jarak Tempuh : {tempuh} KM
-                                    <br /> Keterangan : {perdinKeterangan}
-                                    <br />Akomodasi : {formatRupiah(parseInt(perdinValue))} X {formData.perdin_durasi} = {formatRupiah(biaya)}
-                                </div> 
-                            </div>
+                                <div className="rounded-md mt-5">
+                                    <div className="grid md:grid-cols-3 bg-blue-300 py-3">
+                                        <div className="text-center">Total Hari</div>
+                                        <div className="text-center">Jarak Tempuh</div>
+                                        <div className="text-center">Total Uang Perdin</div>
+                                    </div>
+                                    <div className="grid md:grid-cols-3 bg-gray-300 py-3">
+                                        <div className="text-center">{formData.perdin_durasi}</div>
+                                        <div className="text-center">{tempuh} KM</div>
+                                        <div className="text-center">{formatRupiah(biaya)}</div>
+                                    </div>
+                                    <div className=""> Keterangan : {perdinKeterangan}
+                                    </div> 
+                                </div>
                             : <></>}
                         </div>
                     </div>

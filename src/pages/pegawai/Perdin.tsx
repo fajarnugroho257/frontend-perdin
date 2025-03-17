@@ -109,7 +109,7 @@ return (
                                 <TableCell align="right">{formatRupiah(parseInt(row.perdin_biaya))}</TableCell>
                                 <TableCell align="center">{row.perdin_st === 'waiting' ? <div className="text-xs rounded-sm text-white mx-auto bg-yellow-500 w-fit p-1">Menunggu</div> : row.perdin_st === 'approve' ? <div className="text-xs rounded-sm text-white mx-auto bg-green-600 w-fit p-1">Setuju</div> : <div className="text-xs rounded-sm text-white mx-auto bg-red-600 w-fit p-1">Tolak</div>}</TableCell>
                                 <TableCell align="center">
-                                    <Link className="text-yellow-500" to={`/perdin/edit/${row.perdin_id}`}>{<Edit/>}</Link>
+                                    {row.perdin_st === 'waiting' && <Link className="text-yellow-500" to={`/perdin/edit/${row.perdin_id}`}>{<Edit/>}</Link>}
                                 </TableCell>
                                 </TableRow>
                             ))}
